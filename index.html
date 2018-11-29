@@ -10,14 +10,15 @@
     </head>
     <body>
         <header>
-           <h1> Secret Santa Generator </h1> 
+           <h1>Secret Santa Generator</h1> 
         </header>
         <div class = "the_button">
-             <button onclick="createList()">Input participants</button>
-             <button onclick="staticInputs()"> Load our participants!</button>
+            
+             <button onclick="createList(); enable()">Input participants</button>
+             <button onclick="staticInputs(); enable()"> Load our participants!</button>
                <!-- <button onclick="load()">Load participants</button>
              <button onclick="save()">Save participants</button>-->
-             <button id = "bind" onclick = "disable(this); assign()">Who is my assignment?</button>
+             <button id = "bind" onclick = "disable(); assign()" disabled>Who is my assignment?</button>
             <p id = "text"></p>
         </div>
         
@@ -28,9 +29,18 @@
 
         </div>
         <script>
-            function disable(btn){
-                btn.setAttribute("disabled", true);
+            //disables the button--user cannot press
+            function disable(){
+                var btn = document.querySelector("#bind");
+                btn.disabled = true;
+
             }
+            function enable(){
+                var btn = document.querySelector("#bind");
+                btn.disabled = false;
+            }
+           
+            //randomizes the order of an array given in the parameter
             function randomize(a){
                 var n_list = [];
                 var l = a.length;
@@ -44,10 +54,12 @@
 
             }
             
-            var list = [];
-
-            var official_list = [];
-            function createList(){
+            var list = []; //inputted list
+            var official_list = []; //list that is used and randomized
+            
+            //creates the list that we will use for the secret santa by taking 
+            //in user inputs as an array then randomizing it using randomize()
+            function createList(){ 
                 var size = Number(prompt("How many people are participating in this gift exchange?"));
                 if(isNaN(size)|| typeof size != "number"){
                     alert("You must input a number!");
@@ -64,10 +76,15 @@
                 
             }
             
-            
+            //prompts user for their name, if they are in the list, their assignment
+            //is the element directly after them in the array.
+            //throws an error if the input is not an element in the array
             function assign() {
-                var person = prompt("Please enter your name");
-                if (person != null) {
+                if(official_list.length==0){
+                    alert("You must input or load partiicpants first!");
+                }else{
+                    var person = prompt("Please enter your name");
+                    if (person != null) {
                     if(official_list.includes(person)){
                         var idx = official_list.indexOf(person);
                         if(idx == official_list.length-1) idx = -1;
@@ -80,9 +97,13 @@
                     }
                     
                 }  
+                }
+               
             }
             
             //saving and loading the participant list to a file
+            
+            //does not currently work, but this does save the data as an external file to the computer's downloads
             function save(){
                var data = JSON.stringify(official_list);
                 var a = document.createElement("a");
@@ -98,6 +119,11 @@
                 
             }
             
+            
+            //FOR THE PURPOSE OF A SPECIFIC GROUP OF PEOPLE
+            //not a totally random order, uses the same variable to create the new list
+            //however since this is static, it can be used universally along with the static inputs. 
+            
             function notTotallyRandom(a){
                 var n_list = [];
                 var l = a.length;
@@ -109,6 +135,7 @@
                 }
                 return n_list;
             }
+            //static inputs, do not change. 
             function staticInputs(){
                 list = ["Emma", "Jessica", "Divya", "Alex", "Sophia", "Lizzie", "Sarah", "Sabrina"];
                 official_list = notTotallyRandom(list);   
