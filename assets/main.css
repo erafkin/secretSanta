@@ -57,15 +57,14 @@ h2{
     text-align: center;
     font-size: 15pt;
     background-color: #00cc00;
-
 }
+
 #text{
     height: 15%;
     display: block;
     text-align: center;
-    font-size: 30pt;
+    font-size: 20pt;
     color: white;
-    border: 1px solid black;
 }
 input:hover{
     box-shadow: 2px 2px 2px black;
