@@ -66,6 +66,7 @@
                 }else{
                     while(size != 0){
                         var p = prompt("Enter participant");
+                        p=p.toLowerCase();
                         list.push(p);
                         size = size-1;
                     }
@@ -83,6 +84,7 @@
                     alert("You have to input or load participants first!")
                 }else{
                     var person = prompt("Please enter your name");
+                    person = person.toLowerCase();
                     if (person != null) { 
                         if(official_list.includes(person)){
                             assignHelper(person, person);
@@ -107,6 +109,7 @@
             }
             //general fuction to get the assignment
             function assignHelper(p, p1){
+                 p1 = p1.toLowerCase();
                  var idx = official_list.indexOf(p1);
                  if(idx == official_list.length-1) idx = -1;
                  var assignment = official_list[idx+1]
@@ -149,7 +152,7 @@
             }
             //static inputs, do not change. 
             function staticInputs(){
-                list = ["Emma", "Jessica", "Divya", "Alex", "Sophia", "Lizzie", "Sarah", "Sabrina"];
+                list = ["emma", "jessica", "divya", "alex", "sophia", "lizzie", "sarah", "sabrina"];
                 official_list = notTotallyRandom(list);   
                 alert("The participants in our friend group have been loaded!");
             }
