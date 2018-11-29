@@ -11,14 +11,21 @@
     <body>
         <header>
            <h1>Secret Santa Generator</h1> 
+            <h2> Click the hats to get started!</h2>
         </header>
         <div class = "the_button">
-            
-             <button onclick="createList(); enable()">Input participants</button>
-             <button onclick="staticInputs(); enable()"> Load our participants!</button>
+            <input type ="image" src = "assets/clipart124093.png" onclick="createList();" value = "Input participants"/><br>
+            Input participants
+             <br>
+            <input type ="image" src = "assets/clipart124093.png" onclick="staticInputs();" value = "load our participants"/> <br>
+            Load our participants!
+             <br>
+            <input id = "bind" type ="image" src = "assets/clipart124093.png" onclick="assign()" value = "assign"/> 
+            <br>Who is my assignment?
+             <br>
                <!-- <button onclick="load()">Load participants</button>
              <button onclick="save()">Save participants</button>-->
-             <button id = "bind" onclick = "disable(); assign()" disabled>Who is my assignment?</button>
+             
             <p id = "text"></p>
         </div>
         
@@ -28,18 +35,9 @@
             </a> 
 
         </div>
+        
         <script>
             
-            //disables the button--user cannot press
-            function disable(){
-                var btn = document.querySelector("#bind");
-                btn.disabled = true;
-
-            }
-            function enable(){
-                var btn = document.querySelector("#bind");
-                btn.disabled = false;
-            }
            
             //randomizes the order of an array given in the parameter
             function randomize(a){
@@ -81,26 +79,31 @@
             //is the element directly after them in the array.
             //throws an error if the input is not an element in the array
             function assign() {
-                 var person = prompt("Please enter your name");
-                 if (person != null) { 
-                    if(official_list.includes(person)){
-                       assignHelper(person, person);
-                    }
+                if(official_list.length == 0){
+                    alert("You have to input or load participants first!")
+                }else{
+                    var person = prompt("Please enter your name");
+                    if (person != null) { 
+                        if(official_list.includes(person)){
+                            assignHelper(person, person);
+                        }
                      
                      //if the user types in their full name but the person 
                      //that inputted the data only used their first name
-                    else if (person.includes(" ")){
-                        var pArray = person.split(" ");
-                        if(official_list.includes(pArray[0])){
-                            assignHelper(person, pArray[0]);
+                        else if (person.includes(" ")){
+                            var pArray = person.split(" ");
+                            if(official_list.includes(pArray[0])){
+                                assignHelper(person, pArray[0]);
+                            }
                         }
-                    }
-                    else{
-                        document.getElementById("text").innerHTML =
-                        "Hello " + person + "! Unfortunately you are not a part of this secret santa group!";
-                    }
+                        else{
+                            document.getElementById("text").innerHTML =
+                            "Hello " + person + "! Unfortunately you are not a part of this secret santa group!";
+                        }
                     
-                }  
+                    }  
+                }
+                 
             }
             //general fuction to get the assignment
             function assignHelper(p, p1){
@@ -128,7 +131,6 @@
 
                 
             }
-            
             
             //FOR THE PURPOSE OF A SPECIFIC GROUP OF PEOPLE
             //not a totally random order, uses the same variable to create the new list

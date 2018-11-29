@@ -34,8 +34,8 @@ body {
         min-width: 600px;
 }
 .the_button{
-    padding-top: 10%;
-    padding-bottom: 10%;
+    padding-top: 1%;
+    padding-bottom: 1%;
     display: block;
     text-align: center;
     width: 100%;
@@ -51,12 +51,24 @@ h1{
     font-size: 25pt;
     background-color: #00cc00;
 }
-p{
-     height: 15%;
+h2{
     width: 100%;
     display: block;
     text-align: center;
     font-size: 15pt;
+    background-color: #00cc00;
+}
+}
+#text{
+    height: 15%;
+    display: block;
+    text-align: center;
+    font-size: 30pt;
+    color: white;
+    border: 1px solid black;
+}
+input:hover{
+    box-shadow: 2px 2px 2px black;
 }
 .pic{
     padding-top: 3%;
