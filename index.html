@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+
+        <link href = "assets/main.css" rel = "stylesheet" type = "text/css">
+        
+        <title> Secret Santa </title>  
+    </head>
+    <body>
+        <header>
+           <h1>Welcome to the Secret Santa Assigner! </h1> 
+        </header>
+        <div class = "the_button">
+             <button onclick="createList()">Input participants</button>
+             <button onclick="staticInputs()"> Load our participants!</button>
+               <!-- <button onclick="load()">Load participants</button>
+             <button onclick="save()">Save participants</button>-->
+             <button onclick="assign()">Who is my assignment?</button>
+        </div>
+        <p id = "text"></p>
+        <div class = "pic">
+                    <image src = "assets/picture.jpg"> </image>
+
+        </div>
+        <script>
+            function randomize(a){
+                var n_list = [];
+                var l = a.length;
+                while(n_list.length != l){
+                    var num = Math.floor(Math.random()*a.length);
+                    var person = a.splice(num, 1);
+                    n_list.push(person[0]);
+
+                }
+                return n_list;  
+
+            }
+            
+            var list = [];
+
+            var official_list = [];
+            function createList(){
+                var size = Number(prompt("How many people are participating in this gift exchange?"));
+                if(isNaN(size)|| typeof size != "number"){
+                    alert("You must input a number!");
+                    createList();
+                }else{
+                    while(size != 0){
+                        var p = prompt("Enter participant");
+                        list.push(p);
+                        size = size-1;
+                    }
+                    var list1 = randomize(list);
+                    official_list = list1;  
+                }
+                
+            }
+            
+            
+            function assign() {
+                var person = prompt("Please enter your name");
+                if (person != null) {
+                    if(official_list.includes(person)){
+                        var idx = official_list.indexOf(person);
+                        if(idx == official_list.length-1) idx = -1;
+                        var assignment = official_list[idx+1]
+                        document.getElementById("text").innerHTML =
+                        "Hello " + person + "! Your assignment is " + assignment + "!";
+                    }else{
+                        document.getElementById("text").innerHTML =
+                        "Hello " + person + "! Unfortunately you are not a part of this secret santa group!";
+                    }
+                    
+                }  
+            }
+            
+            //saving and loading the participant list to a file
+            function save(){
+               var data = JSON.stringify(official_list);
+                var a = document.createElement("a");
+                var file = new Blob([data], {type: "text/plain"});
+                a.href = URL.createObjectURL(file);
+                a.download = "assets/savedList.txt";
+                a.click();
+                console.log(data);
+                
+            }
+            function load(){
+
+                
+            }
+            
+            function notTotallyRandom(a){
+                var n_list = [];
+                var l = a.length;
+                while(n_list.length != l){
+                    var num = Math.floor(0.4657*a.length);
+                    var person = a.splice(num, 1);
+                    n_list.push(person[0]);
+
+                }
+                return n_list;
+            }
+            function staticInputs(){
+                list = ["Emma", "Jessica", "Divya", "Alex", "Sophia", "Lizzie"];
+                official_list = notTotallyRandom(list);   
+            }
+        </script>
+    </body>
+
+
+</html>
