@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+
+        <link href = "assets/main.css" rel = "stylesheet" type = "text/css">
+        
+        <title> Secret Santa </title>  
+    </head>
+    <body>
+        <header>
+           <h1>Secret Santa Generator</h1> 
+            <h2> Click the hats to get started!</h2>
+        </header>
+        <div class = "the_button">
+            <input type ="image" src = "assets/clipart124093.png" onclick="createList();" value = "Input participants"/><br>
+            Input participants
+             <br>
+            <input type ="image" src = "assets/clipart124093.png" onclick="staticInputs();" value = "load our participants"/> <br>
+            Load our participants!
+             <br>
+            <input id = "bind" type ="image" src = "assets/clipart124093.png" onclick="assign()" value = "assign"/> 
+            <br>Who is my assignment?
+             <br>
+               <!-- <button onclick="load()">Load participants</button>
+             <button onclick="save()">Save participants</button>-->
+             
+            <p id = "text"></p>
+        </div>
+        
+        <div class = "pic">
+                   <a href = "https://www.youtube.com/watch?v=_oKTOTrao9g&app=desktop" target="_blank">
+                <image src = "assets/picture.jpg"> </image>
+            </a> 
+
+        </div>
+        
+        <script>
+            
+           
+            //randomizes the order of an array given in the parameter
+            function randomize(a){
+                var n_list = [];
+                var l = a.length;
+                while(n_list.length != l){
+                    var num = Math.floor(Math.random()*a.length);
+                    var person = a.splice(num, 1);
+                    n_list.push(person[0]);
+
+                }
+                return n_list;  
+
+            }
+            
+            var list = []; //inputted list
+            var official_list = []; //list that is used and randomized
+            
+            //creates the list that we will use for the secret santa by taking 
+            //in user inputs as an array then randomizing it using randomize()
+            function createList(){ 
+                var size = Number(prompt("How many people are participating in this gift exchange?"));
+                if(isNaN(size)|| typeof size != "number"){
+                    alert("You must input a number!");
+                    createList();
+                }else{
+                    while(size != 0){
+                        var p = prompt("Enter participant");
+                        list.push(p);
+                        size = size-1;
+                    }
+                    var list1 = randomize(list);
+                    official_list = list1;  
+                }
+                
+            }
+            
+            //prompts user for their name, if they are in the list, their assignment
+            //is the element directly after them in the array.
+            //throws an error if the input is not an element in the array
+            function assign() {
+                if(official_list.length == 0){
+                    alert("You have to input or load participants first!")
+                }else{
+                    var person = prompt("Please enter your name");
+                    if (person != null) { 
+                        if(official_list.includes(person)){
+                            assignHelper(person, person);
+                        }
+                     
+                     //if the user types in their full name but the person 
+                     //that inputted the data only used their first name
+                        else if (person.includes(" ")){
+                            var pArray = person.split(" ");
+                            if(official_list.includes(pArray[0])){
+                                assignHelper(person, pArray[0]);
+                            }
+                        }
+                        else{
+                            document.getElementById("text").innerHTML =
+                            "Hello " + person + "! Unfortunately you are not a part of this secret santa group!";
+                        }
+                    
+                    }  
+                }
+                 
+            }
+            //general fuction to get the assignment
+            function assignHelper(p, p1){
+                 var idx = official_list.indexOf(p1);
+                 if(idx == official_list.length-1) idx = -1;
+                 var assignment = official_list[idx+1]
+                 document.getElementById("text").innerHTML =
+                "Hello " + p + "! Your assignment is " + assignment + "!";
+            }
+            
+            //saving and loading the participant list to a file
+            
+            //does not currently work, but this does save the data as an external file to the computer's downloads
+            function save(){
+               var data = JSON.stringify(official_list);
+                var a = document.createElement("a");
+                var file = new Blob([data], {type: "text/plain"});
+                a.href = URL.createObjectURL(file);
+                a.download = "assets/savedList.txt";
+                a.click();
+                console.log(data);
+                
+            }
+            function load(){
+
+                
+            }
+            
+            //FOR THE PURPOSE OF A SPECIFIC GROUP OF PEOPLE
+            //not a totally random order, uses the same variable to create the new list
+            //however since this is static, it can be used universally along with the static inputs. 
+            
+            function notTotallyRandom(a){
+                var n_list = [];
+                var l = a.length;
+                while(n_list.length != l){
+                    var num = Math.floor(0.2345*a.length);
+                    var person = a.splice(num, 1);
+                    n_list.push(person[0]);
+
+                }
+                return n_list;
+            }
+            //static inputs, do not change. 
+            function staticInputs(){
+                list = ["Emma", "Jessica", "Divya", "Alex", "Sophia", "Lizzie", "Sarah", "Sabrina"];
+                official_list = notTotallyRandom(list);   
+                alert("The participants in our friend group have been loaded!");
+            }
+        </script>
+    </body>
+
+
+</html>
